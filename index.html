@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Keuangan Sederhana</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: #f7f7fb;
+      }
+      .card {
+        border: 0;
+        border-radius: 1rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      }
+      .nav-pills .nav-link.active {
+        background: #4f46e5;
+      }
+      .table thead th {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 1;
+      }
+      .amount {
+        text-align: right;
+      }
+      tfoot td {
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container py-4">
+      <div class="row g-4 align-items-stretch">
+        <div class="col-lg-12">
+          <div class="card h-100">
+            <div class="card-body">
+              <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link active"
+                    id="home-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#home"
+                    type="button"
+                    role="tab"
+                  >
+                    Home
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="pemasukan-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pemasukan"
+                    type="button"
+                    role="tab"
+                  >
+                    Pemasukan
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="pengeluaran-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pengeluaran"
+                    type="button"
+                    role="tab"
+                  >
+                    Pengeluaran
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="pengeluaran-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#ringkasan"
+                    type="button"
+                    role="tab"
+                  >
+                    Ringkasan
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content" id="pills-tabContent">
+                <!-- HOME -->
+                <div
+                  class="tab-pane fade show active"
+                  id="home"
+                  role="tabpanel"
+                >
+                  <div
+                    class="d-flex justify-content-center align-items-center py-5"
+                  >
+                    <div
+                      class="card shadow-lg border-0"
+                      style="max-width: 700px; background: #fdfdfd"
+                    >
+                      <div class="card-body text-center p-5">
+                        <h2 class="fw-bold mb-4 text-primary">
+                          REKAPITULASI INFAQ
+                        </h2>
+                        <h4 class="mb-2">SMK BANI ADAM HAWWA (BANAWA)</h4>
+                        <h5 class="mb-4">TAHUN 2024-2025</h5>
+                        <div class="my-4">
+                          <img
+                            src="logo smk.png"
+                            alt="Logo Sekolah"
+                            style="max-height: 100px"
+                          />
+                        </div>
+                        <p class="mb-0 fw-semibold">
+                          SMK BANI ADAM HAWWA (BANAWA)
+                        </p>
+                        <p class="mb-0">BOARDING SCHOOL</p>
+                        <p class="mb-0">
+                          KP. BABAKAN MANGGUNG KELURAHAN SUKAJAYA
+                        </p>
+                        <p class="mb-0">KECAMATAN TAROGONG KIDUL</p>
+                        <p class="mb-0">KABUPATEN GARUT</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- PEMASUKAN -->
+                <div
+                  class="tab-pane fade show active"
+                  id="pemasukan"
+                  role="tabpanel"
+                >
+                  <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                      <label class="form-label">Tanggal</label>
+                      <input type="date" id="inTanggal" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">Sumber Dana</label>
+                      <input
+                        type="text"
+                        id="inSumber"
+                        class="form-control"
+                        placeholder="Gaji, Bonus, dll."
+                      />
+                    </div>
+                    <div class="col-md-3">
+                      <label class="form-label">Jumlah (Rp)</label>
+                      <input
+                        type="number"
+                        id="inJumlah"
+                        class="form-control"
+                        min="0"
+                        step="100"
+                      />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                      <button class="btn btn-primary w-100" id="btnAddIn">
+                        Tambah
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive" style="max-height: 360px">
+                    <table
+                      class="table table-sm table-striped align-middle"
+                      id="tblIn"
+                    >
+                      <thead>
+                        <tr>
+                          <th style="width: 130px">Tanggal</th>
+                          <th>Sumber Dana</th>
+                          <th class="text-end" style="width: 160px">Jumlah</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="2">Total Pemasukan</td>
+                          <td class="text-end" id="totalIn">Rp0</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- PENGELUARAN -->
+                <div class="tab-pane fade" id="pengeluaran" role="tabpanel">
+                  <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                      <label class="form-label">Tanggal</label>
+                      <input type="date" id="outTanggal" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">Jenis Pengeluaran</label>
+                      <input
+                        type="text"
+                        id="outJenis"
+                        class="form-control"
+                        placeholder="Makan, Transport, dll."
+                      />
+                    </div>
+                    <div class="col-md-3">
+                      <label class="form-label">Jumlah (Rp)</label>
+                      <input
+                        type="number"
+                        id="outJumlah"
+                        class="form-control"
+                        min="0"
+                        step="100"
+                      />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                      <button class="btn btn-danger w-100" id="btnAddOut">
+                        Tambah
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive" style="max-height: 360px">
+                    <table
+                      class="table table-sm table-striped align-middle"
+                      id="tblOut"
+                    >
+                      <thead>
+                        <tr>
+                          <th style="width: 130px">Tanggal</th>
+                          <th>Jenis Pengeluaran</th>
+                          <th class="text-end" style="width: 160px">Jumlah</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="2">Total Pengeluaran</td>
+                          <td class="text-end" id="totalOut">Rp0</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- RINGKASAN -->
+                <div class="tab-pane fade" id="ringkasan" role="tabpanel">
+                  <div class="col-lg-12">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <h5 class="mb-3">Ringkasan</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                          <span>Total Pemasukan</span>
+                          <strong id="sumIn">Rp0</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                          <span>Total Pengeluaran</span>
+                          <strong id="sumOut">Rp0</strong>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between fs-5">
+                          <span>Saldo Akhir</span>
+                          <strong id="saldo">Rp0</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="row g-3 mb-3">
+                      <div class="col-md-8">
+                        <label for="bulan">Pilih Bulan:</label>
+                        <input class="form-control" type="month" id="bulan" />
+                      </div>
+                      <div class="col-md-3 d-flex align-items-end">
+                        <button
+                          class="btn btn-primary"
+                          onclick="previewLaporan()"
+                        >
+                          Lihat Laporan
+                        </button>
+                      </div>
+                    </div>
+
+                    <div
+                      id="laporan-preview"
+                      class="table-responsive"
+                      style="margin-top: 20px; display: none"
+                    >
+                      <h3 id="judul-laporan" style="text-align: center"></h3>
+
+                      <h4>Pemasukan</h4>
+                      <table
+                        class="table table-sm table-striped align-middle"
+                        border="1"
+                        cellpadding="5"
+                        cellspacing="0"
+                        id="tabel-pemasukan"
+                      ></table>
+
+                      <h4>Pengeluaran</h4>
+                      <table
+                        class="table table-sm table-striped align-middle"
+                        border="1"
+                        cellpadding="5"
+                        cellspacing="0"
+                        id="tabel-pengeluaran"
+                      ></table>
+
+                      <h4>Ringkasan</h4>
+                      <table
+                        class="table table-sm table-striped align-middle"
+                        border="1"
+                        cellpadding="5"
+                        cellspacing="0"
+                        id="tabel-ringkasan"
+                      ></table>
+
+                      <br />
+                      <button class="btn btn-primary" onclick="exportExcel()">
+                        Export Excel
+                      </button>
+                      <button class="btn btn-secondary" onclick="exportPDF()">
+                        Export PDF
+                      </button>
+                    </div>
+
+                    <!-- library untuk Excel & PDF -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-muted small mt-3">
+        Data disimpan di Google Sheets melalui Google Apps Script WebApp.
+      </p>
+    </div>
+
+    <script>
+      let laporanData = { pemasukan: [], pengeluaran: [], bulan: "" };
+      const API_URL =
+        "https://script.google.com/macros/s/AKfycbxzYCRRz5LvcNTJAfvv_5dRfgu5IEvxprR8MWdF6cgfp4H3OuDNU3wsejgZBhiv9q-_/exec"; // ganti dengan URL WebApp Apps Script kamu
+
+      const fmtRp = (n) =>
+        new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          maximumFractionDigits: 0,
+        }).format(n || 0);
+
+      async function previewLaporan() {
+        const bulan = document.getElementById("bulan").value;
+        if (!bulan) {
+          alert("Pilih bulan dulu!");
+          return;
+        }
+
+        const [pemasukanRes, pengeluaranRes] = await Promise.all([
+          fetch(`${API_URL}?sheet=Pemasukan`).then((r) => r.json()),
+          fetch(`${API_URL}?sheet=Pengeluaran`).then((r) => r.json()),
+        ]);
+
+        // convert bulan jadi angka utk perbandingan
+        const [tahun, bln] = bulan.split("-").map(Number);
+
+        const filterByMonth = (data) =>
+          data.filter((r) => {
+            if (!r.Tanggal) return false;
+            const tgl = new Date(r.Tanggal);
+            const ym = `${tgl.getFullYear()}-${String(
+              tgl.getMonth() + 1
+            ).padStart(2, "0")}`;
+            return ym === bulan;
+          });
+
+        const pemasukan = filterByMonth(pemasukanRes);
+        const pengeluaran = filterByMonth(pengeluaranRes);
+
+        // render tabel
+        document.getElementById("tabel-pemasukan").innerHTML = renderTable(
+          pemasukan,
+          ["Tanggal", "Sumber Dana", "Jumlah"]
+        );
+        document.getElementById("tabel-pengeluaran").innerHTML = renderTable(
+          pengeluaran,
+          ["Tanggal", "Jenis Pengeluaran", "Jumlah"]
+        );
+
+        // hitung saldo bulan sebelumnya
+        const filterBeforeMonth = (data) =>
+          data.filter((r) => {
+            if (!r.Tanggal) return false;
+            const tgl = new Date(r.Tanggal);
+            return (
+              tgl.getFullYear() < tahun ||
+              (tgl.getFullYear() === tahun && tgl.getMonth() + 1 < bln)
+            );
+          });
+
+        const pemasukanSebelum = filterBeforeMonth(pemasukanRes);
+        const pengeluaranSebelum = filterBeforeMonth(pengeluaranRes);
+
+        const totalMasukSebelum = pemasukanSebelum.reduce(
+          (s, r) => s + Number(r.Jumlah || 0),
+          0
+        );
+        const totalKeluarSebelum = pengeluaranSebelum.reduce(
+          (s, r) => s + Number(r.Jumlah || 0),
+          0
+        );
+        const saldoSebelum = totalMasukSebelum - totalKeluarSebelum;
+
+        // hitung ringkasan bulan ini
+        const totalMasuk = pemasukan.reduce(
+          (s, r) => s + Number(r.Jumlah || 0),
+          0
+        );
+        const totalKeluar = pengeluaran.reduce(
+          (s, r) => s + Number(r.Jumlah || 0),
+          0
+        );
+        const saldoAkhir = saldoSebelum + totalMasuk - totalKeluar;
+
+        // ✅ simpan ke global termasuk saldo
+        laporanData = {
+          bulan,
+          pemasukan,
+          pengeluaran,
+          saldoBulanSebelumnya: saldoSebelum,
+          totalMasuk,
+          totalKeluar,
+          saldoAkhir,
+        };
+
+        // render ringkasan
+        document.getElementById("tabel-ringkasan").innerHTML = `
+    <tr><td>Saldo Bulan Sebelumnya</td><td>${toRp(saldoSebelum)}</td></tr>
+    <tr><td>Total Pemasukan Bulan Ini</td><td>${toRp(totalMasuk)}</td></tr>
+    <tr><td>Total Pengeluaran Bulan Ini</td><td>${toRp(totalKeluar)}</td></tr>
+    <tr><td><b>Saldo Akhir</b></td><td><b>${toRp(saldoAkhir)}</b></td></tr>
+  `;
+
+        document.getElementById("judul-laporan").innerText =
+          "Laporan Keuangan Bulan " +
+          new Date(bulan + "-01").toLocaleDateString("id-ID", {
+            month: "long",
+            year: "numeric",
+          });
+
+        document.getElementById("laporan-preview").style.display = "block";
+      }
+
+      function renderTable(data, headers) {
+        if (data.length === 0)
+          return (
+            "<tr><td colspan='" + headers.length + "'>Tidak ada data</td></tr>"
+          );
+
+        let html =
+          "<tr>" + headers.map((h) => "<th>" + h + "</th>").join("") + "</tr>";
+        data.forEach((r) => {
+          html +=
+            "<tr>" +
+            headers
+              .map((h) => {
+                if (h === "Tanggal")
+                  return "<td>" + formatDateOnly(r[h]) + "</td>";
+                if (h === "Jumlah") return "<td>" + toRp(r[h]) + "</td>";
+                return "<td>" + (r[h] || "") + "</td>";
+              })
+              .join("") +
+            "</tr>";
+        });
+        return html;
+      }
+
+      function formatDateOnly(dateString) {
+        if (!dateString) return "";
+        const d = new Date(dateString);
+        return d.toLocaleDateString("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        });
+      }
+
+      function toRp(angka) {
+        return Number(angka || 0).toLocaleString("id-ID", {
+          style: "currency",
+          currency: "IDR",
+        });
+      }
+
+      function formatDateOnly(dateString) {
+        if (!dateString) return "";
+        const d = new Date(dateString);
+        if (isNaN(d)) return dateString; // kalau bukan tanggal valid, biarkan apa adanya
+        return d.toLocaleDateString("id-ID", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        });
+      }
+
+      async function loadData() {
+        const resIn = await fetch(`${API_URL}?sheet=Pemasukan`);
+        const dataIn = await resIn.json();
+        const resOut = await fetch(`${API_URL}?sheet=Pengeluaran`);
+        const dataOut = await resOut.json();
+
+        // Render Pemasukan
+        const tbodyIn = document.querySelector("#tblIn tbody");
+        tbodyIn.innerHTML = "";
+        let totalIn = 0;
+        dataIn.forEach((row) => {
+          totalIn += Number(row["Jumlah"]) || 0;
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+           <td>${formatDateOnly(row["Tanggal"] || "")}</td>
+          <td>${row["Sumber Dana"] || ""}</td>
+          <td class="text-end">${fmtRp(row["Jumlah"])}</td>`;
+          tbodyIn.appendChild(tr);
+        });
+        document.getElementById("totalIn").textContent = fmtRp(totalIn);
+
+        // Render Pengeluaran
+        const tbodyOut = document.querySelector("#tblOut tbody");
+        tbodyOut.innerHTML = "";
+        let totalOut = 0;
+        dataOut.forEach((row) => {
+          totalOut += Number(row["Jumlah"]) || 0;
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+         <td>${formatDateOnly(row["Tanggal"] || "")}</td>
+          <td>${row["Jenis Pengeluaran"] || ""}</td>
+          <td class="text-end">${fmtRp(row["Jumlah"])}</td>`;
+          tbodyOut.appendChild(tr);
+        });
+        document.getElementById("totalOut").textContent = fmtRp(totalOut);
+
+        // Ringkasan
+        document.getElementById("sumIn").textContent = fmtRp(totalIn);
+        document.getElementById("sumOut").textContent = fmtRp(totalOut);
+        document.getElementById("saldo").textContent = fmtRp(
+          totalIn - totalOut
+        );
+      }
+
+      function showAlert(message, type = "success") {
+        const alertBox = document.createElement("div");
+        alertBox.className = `alert alert-${type} position-fixed top-0 start-50 translate-middle-x mt-3`;
+        alertBox.style.zIndex = "2000";
+        alertBox.textContent = message;
+        document.body.appendChild(alertBox);
+
+        setTimeout(() => {
+          alertBox.remove();
+        }, 3000);
+      }
+
+      document
+        .getElementById("btnAddIn")
+        .addEventListener("click", async () => {
+          const tanggal = document.getElementById("inTanggal").value;
+          const sumber = document.getElementById("inSumber").value.trim();
+          const jumlah = Number(document.getElementById("inJumlah").value || 0);
+
+          if (!tanggal || !sumber || !jumlah)
+            return showAlert("Mohon lengkapi data pemasukan.", "danger");
+
+          await fetch(API_URL, {
+            method: "POST",
+            body: new URLSearchParams({
+              sheet: "Pemasukan",
+              tanggal,
+              sumber,
+              jumlah,
+            }),
+          });
+
+          // ✅ reset form
+          document.getElementById("inTanggal").value = "";
+          document.getElementById("inSumber").value = "";
+          document.getElementById("inJumlah").value = "";
+
+          showAlert("Data pemasukan berhasil ditambahkan!", "success");
+          loadData();
+        });
+
+      document
+        .getElementById("btnAddOut")
+        .addEventListener("click", async () => {
+          const tanggal = document.getElementById("outTanggal").value;
+          const jenis = document.getElementById("outJenis").value.trim();
+          const jumlah = Number(
+            document.getElementById("outJumlah").value || 0
+          );
+
+          if (!tanggal || !jenis || !jumlah)
+            return showAlert("Mohon lengkapi data pengeluaran.", "danger");
+
+          await fetch(API_URL, {
+            method: "POST",
+            body: new URLSearchParams({
+              sheet: "Pengeluaran",
+              tanggal,
+              jenis,
+              jumlah,
+            }),
+          });
+
+          // ✅ reset form
+          document.getElementById("outTanggal").value = "";
+          document.getElementById("outJenis").value = "";
+          document.getElementById("outJumlah").value = "";
+
+          showAlert("Data pengeluaran berhasil ditambahkan!", "success");
+          loadData();
+        });
+
+      loadData();
+
+      // =============================
+      // Export ke Excel
+      // =============================
+      function exportExcel() {
+        if (!laporanData.bulan) {
+          alert("Preview laporan dulu!");
+          return;
+        }
+
+        const wb = XLSX.utils.book_new();
+
+        // sheet pemasukan
+        const wsMasuk = XLSX.utils.json_to_sheet(laporanData.pemasukan);
+        XLSX.utils.book_append_sheet(wb, wsMasuk, "Pemasukan");
+
+        // sheet pengeluaran
+        const wsKeluar = XLSX.utils.json_to_sheet(laporanData.pengeluaran);
+        XLSX.utils.book_append_sheet(wb, wsKeluar, "Pengeluaran");
+
+        // sheet ringkasan
+        const saldoSebelumnya = laporanData.saldoBulanSebelumnya || 0;
+        const saldoAkhir = totalMasuk + saldoSebelumnya - totalKeluar;
+
+        const ringkasan = [
+          ["Ringkasan Laporan Keuangan"],
+          [],
+          ["Total Pemasukan Bulan Ini", toRp(totalMasuk)],
+          ["Total Pengeluaran Bulan Ini", toRp(totalKeluar)],
+          ["Saldo Bulan Sebelumnya", toRp(saldoSebelumnya)],
+          ["Saldo Akhir", toRp(saldoAkhir)],
+        ];
+
+        const wsRingkasan = XLSX.utils.aoa_to_sheet(ringkasan);
+        XLSX.utils.book_append_sheet(wb, wsRingkasan, "Ringkasan");
+
+        // export file
+        XLSX.writeFile(wb, `Laporan_${laporanData.bulan}.xlsx`);
+      }
+
+      // =============================
+      // Export ke PDF
+      // =============================
+      async function exportPDF() {
+        if (!laporanData.bulan) {
+          alert("Preview laporan dulu!");
+          return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const bulanTeks = new Date(
+          laporanData.bulan + "-01"
+        ).toLocaleDateString("id-ID", { month: "long", year: "numeric" });
+
+        // Judul
+        doc.setFontSize(14);
+        doc.text(`Laporan Keuangan Bulan ${bulanTeks}`, 105, 15, {
+          align: "center",
+        });
+
+        // --- Ringkasan (langsung pakai data dari laporanData)
+        const { saldoBulanSebelumnya, totalMasuk, totalKeluar, saldoAkhir } =
+          laporanData;
+
+        // --- Pemasukan
+        doc.autoTable({
+          startY: doc.lastAutoTable.finalY + 10,
+          head: [["Tanggal", "Sumber Dana", "Jumlah"]],
+          body: laporanData.pemasukan.map((r) => [
+            r.Tanggal,
+            r["Sumber Dana"],
+            toRp(r.Jumlah),
+          ]),
+          styles: { fontSize: 9 },
+          headStyles: { fillColor: [39, 174, 96] },
+        });
+
+        // --- Pengeluaran
+        doc.autoTable({
+          startY: doc.lastAutoTable.finalY + 10,
+          head: [["Tanggal", "Jenis Pengeluaran", "Jumlah"]],
+          body: laporanData.pengeluaran.map((r) => [
+            r.Tanggal,
+            r["Jenis Pengeluaran"],
+            toRp(r.Jumlah),
+          ]),
+          styles: { fontSize: 9 },
+          headStyles: { fillColor: [231, 76, 60] },
+        });
+        doc.autoTable({
+          startY: 25,
+          head: [["Keterangan", "Jumlah"]],
+          body: [
+            ["Saldo Bulan Sebelumnya", toRp(saldoBulanSebelumnya)],
+            ["Total Pemasukan Bulan Ini", toRp(totalMasuk)],
+            ["Total Pengeluaran Bulan Ini", toRp(totalKeluar)],
+            ["Saldo Akhir", toRp(saldoAkhir)],
+          ],
+          styles: { fontSize: 10 },
+          headStyles: { fillColor: [41, 128, 185] },
+        });
+
+        doc.save(`Laporan_${laporanData.bulan}.pdf`);
+      }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.19.3/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
