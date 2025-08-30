@@ -110,7 +110,7 @@
                           REKAPITULASI INFAQ
                         </h2>
                         <h4 class="mb-2">SMK BANI ADAM HAWWA (BANAWA)</h4>
-                        <h5 class="mb-4">TAHUN 2024-2025</h5>
+                        <h5 class="mb-4" id="tahunAjaran"></h5>
                         <div class="my-4">
                           <img
                             src="logo smk.png"
@@ -121,7 +121,7 @@
                         <p class="mb-0 fw-semibold">
                           SMK BANI ADAM HAWWA (BANAWA)
                         </p>
-                        <p class="mb-0">BOARDING SCHOOL</p>
+                        <p class="mb-0 fw-semibold">BOARDING SCHOOL</p>
                         <p class="mb-0">
                           KP. BABAKAN MANGGUNG KELURAHAN SUKAJAYA
                         </p>
@@ -133,11 +133,7 @@
                 </div>
 
                 <!-- PEMASUKAN -->
-                <div
-                  class="tab-pane fade show"
-                  id="pemasukan"
-                  role="tabpanel"
-                >
+                <div class="tab-pane fade show" id="pemasukan" role="tabpanel">
                   <div class="row g-3 mb-3">
                     <div class="col-md-3">
                       <label class="form-label">Tanggal</label>
@@ -344,6 +340,14 @@
     </div>
 
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const tahunSekarang = 2024;
+        const tahunBerikut = tahunSekarang + 1;
+        document.getElementById(
+          "tahunAjaran"
+        ).innerText = `TAHUN ${tahunSekarang}-${tahunBerikut}`;
+      });
+
       let laporanData = { pemasukan: [], pengeluaran: [], bulan: "" };
       const API_URL =
         "https://script.google.com/macros/s/AKfycbxzYCRRz5LvcNTJAfvv_5dRfgu5IEvxprR8MWdF6cgfp4H3OuDNU3wsejgZBhiv9q-_/exec"; // ganti dengan URL WebApp Apps Script kamu
